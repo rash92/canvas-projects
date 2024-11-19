@@ -1,0 +1,28 @@
+export class Obstacle {
+    constructor(game, x){
+        this.game = game
+        this.image = document.getElementById('obstacles')
+        this.spriteWidth = 120
+        this.spriteHeight = 120
+        this.scaledWidth = this.spriteWidth * this.game.ratio
+        this.scaledHeight = this.spriteHeight * this.game.ratio
+        this.spritex = Math.floor(Math.random()*4)*this.spriteWidth
+        this.x = x
+        this.y = this.game.height * 0.5 - this.scaledHeight
+        this.vx
+        this.vy = (Math.random() - 0.5) * 3
+
+    }
+    update(){
+        this.x -= this.game.speed
+        this.y += this.vy
+        if (this.y <=0 || this.y >= this.game.height - this.scaledHeight ) this.vy *= -1
+    }
+    draw(){
+        this.game.ctx.drawImage(this.image, this.spritex, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.scaledWidth, this.scaledHeight)
+    }
+    resize(){
+        this.scaledWidth = this.spriteWidth * this.game.ratio
+        this.scaledHeight = this.spriteHeight * this.game.ratio
+    }
+}
