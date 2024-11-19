@@ -16,6 +16,8 @@ class Game {
         this.player = new Player(this)
         this.obstacles = []
         this.numObstacles = 10
+        this.score = 0
+
         this.resize(window.innerWidth, window.innerHeight)
 
         window.addEventListener('resize', (e)=>{
