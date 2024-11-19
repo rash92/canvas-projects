@@ -22,7 +22,12 @@ export class Obstacle {
             this.markedForDeletion = true
             this.game.obstacles = this.game.obstacles.filter(obstacle => !obstacle.markedForDeletion)
             this.game.score++
-            console.log(this.game.score)
+
+
+            if (this.game.obstacles.length <=0){
+                console.log("game over! all enemies defeated!")
+                this.game.gameOver = true
+            }
         }
     }
     draw(){
