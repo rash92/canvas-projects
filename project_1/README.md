@@ -1,1 +1,1 @@
-game made following (this)[https://www.youtube.com/watch?v=vGRbs-HqBJE&list=PLYElE_rzEw_sowQGjRdvwh9eAEt62d_Eu&index=1] tutorial
+game made following [this](https://www.youtube.com/watch?v=vGRbs-HqBJE&list=PLYElE_rzEw_sowQGjRdvwh9eAEt62d_Eu&index=1) tutorial
