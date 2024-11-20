@@ -10,7 +10,7 @@ export class Obstacle {
         this.x = x
         this.y = this.game.height * 0.5 - this.scaledHeight
         this.vx
-        this.vy = (Math.random() - 0.5) * 3
+        this.vy = (Math.random() - 0.5) * 10
         this.collisionX
         this.collisionY
         this.collisionR = this.scaledWidth * 0.5
@@ -24,7 +24,7 @@ export class Obstacle {
         this.collisionX = this.x + this.scaledWidth * 0.5
         this.collisionY = this.y + this.scaledHeight * 0.5
         if (!this.game.gameOver){
-            if (this.y <=0 || this.y >= this.game.height - this.scaledHeight ) this.vy *= -1
+            if (this.y <=0 || this.y >= this.game.height - this.scaledHeight - this.game.bottomMargin ) this.vy *= -1
 
         }else{
             this.vy += 0.2
@@ -37,22 +37,21 @@ export class Obstacle {
                 this.game.score++
             }
 
-            if (this.game.obstacles.length <=0){
-                this.game.gameOver = true
+            if (this.game.obstacles.length <= 0){
+                this.game.triggerGameOver()
             }
         }
         if (this.game.checkCollision(this, this.game.player)){
-            this.game.gameOver = true
             this.game.player.collided = true
             this.game.player.stopCharge()
+            this.game.triggerGameOver()
         }
     }
     draw(){
-        // this.game.ctx.fillRect(this.x,this.y,this.scaledWidth, this.scaledHeight)
         this.game.ctx.drawImage(this.image, this.spritex, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.scaledWidth, this.scaledHeight)
-        this.game.ctx.beginPath()
-        this.game.ctx.arc(this.collisionX, this.collisionY, this.collisionR, 0, Math.PI*2)
-        this.game.ctx.stroke()
+        // this.game.ctx.beginPath()
+        // this.game.ctx.arc(this.collisionX, this.collisionY, this.collisionR, 0, Math.PI*2)
+        // this.game.ctx.stroke()
     }
     resize(){
         this.scaledWidth = this.spriteWidth * this.game.ratio

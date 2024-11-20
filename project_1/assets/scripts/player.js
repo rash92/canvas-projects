@@ -19,7 +19,7 @@ export class Player {
         this.collisionR
         this.collided = false
         this.flapSpeed
-        this.energy = 30
+        this.energy = 40
         this.maxEnergy = this.energy * 2
         this.minEnergy = 15
         this.energyBarSize
@@ -27,21 +27,19 @@ export class Player {
     }
     draw(){
         this.game.ctx.drawImage(this.image, 0,this.spriteY[this.state]*this.spriteHeight,this.spriteWidth, this.spriteHeight, this.x, this.y, this.scaledWidth, this.scaledHeight)
-        this.game.ctx.beginPath()
-        this.game.ctx.arc(this.collisionX, this.collisionY, this.collisionR, 0, Math.PI*2)
-        this.game.ctx.stroke()
+        // this.game.ctx.beginPath()
+        // this.game.ctx.arc(this.collisionX, this.collisionY, this.collisionR, 0, Math.PI*2)
+        // this.game.ctx.stroke()
     }
     update(){
         this.handleEnergy()
-        // x position doesn't actually ever change
-        // this.x += this.vx 
         this.y += this.vy
         
         this.collisionY = this.y + this.scaledHeight*0.5
         if (!this.isGrounded() && !this.charging) this.vy += this.ay
         else this.vy = 0
         if (this.isGrounded()){
-            this.y = this.game.height - this.scaledHeight
+            this.y = this.game.height - this.scaledHeight - this.game.bottomMargin
             
         }
         if (this.vy > 0 ) this.state = "down"
@@ -68,11 +66,15 @@ export class Player {
         if(!this.isTouchingTop()){
             this.vy = this.flapSpeed
             this.state = "up"
+            setTimeout(()=>{
+                this.state = "down"
+            }, 150)
+            this.game.sound.flap()
         }
         this.stopCharge()
     }
     isGrounded (){ 
-        return this.y >= this.game.height - this.scaledHeight
+        return this.y >= this.game.height - this.scaledHeight - this.game.bottomMargin
     }
     isTouchingTop(){
         return this.y <= 0
@@ -95,8 +97,13 @@ export class Player {
         
     }
     startCharge(){
-        this.charging = true
-        this.game.speed = this.game.maxSpeed
+        if (this.energy >= this.minEnergy && !this.charging){
+            this.charging = true
+            this.game.speed = this.game.maxSpeed
+            this.game.sound.charge()
+        } else{
+            this.stopCharge()
+        }
         
     }
     stopCharge(){
