@@ -39,12 +39,16 @@ class Game {
         this.canvas.addEventListener('mousedown', e => {
             this.player.flap()
         })
+        this.canvas.addEventListener('mouseup', e => {
+            this.player.state = "down"
+        })
         // keyboard controls
         this.canvas.addEventListener('keydown', e=>{
             if (e.key === ' ') this.player.flap()
             if (e.key.toLowerCase() === 'r') this.resize(window.innerWidth, window.innerHeight)
             if (e.key === "Shift" || e.key.toLowerCase() === 'c') this.player.startCharge()
         })
+
         // touch controls
         this.canvas.addEventListener('touchstart', e => {
             this.player.flap()
