@@ -1,4 +1,4 @@
-
+import { Player } from "./player.js"
 
 class Game {
     constructor(canvas, context){
@@ -6,6 +6,7 @@ class Game {
         this.ctx = context
         this.width = this.canvas.width
         this.height = this.canvas.height
+        this.snake = new Player(this,0,0, 1, 1)
 
         window.addEventListener('resize', e => {
             this.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight)
@@ -21,8 +22,8 @@ class Game {
         this.render()
     }
     render(){
-        this.ctx.fillStyle = 'blue'
-        this.ctx.fillRect(100,100,100,150)
+        this.snake.update()
+        this.snake.draw()
     }
 }
 
