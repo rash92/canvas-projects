@@ -1,4 +1,7 @@
-import { AiSnake, Keyboard1, Keyboard2 } from "./player.js";
+import { AiSnake, Keyboard1, Keyboard2 } from "./snake.js";
+import { Food } from "./food.js";
+import { Ui } from "./ui.js";
+import { Background } from "./background.js";
 
 class Game {
     constructor(canvas, context) {
@@ -9,12 +12,23 @@ class Game {
         this.cellSize = 50;
         this.columns;
         this.rows;
+        this.topMargin = 3
+
         this.eventTimer = 0;
         this.eventInterval = 200;
         this.eventUpdate = false;
+
+        this.gameOver = true
+        this.winningScore = 3
+
         this.player1
         this.player2
+        this.player3
+        this.player4
+        this.food
+        this.background
         this.gameObjects
+        this.gameUi = new Ui(this)
 
         window.addEventListener("resize", (e) => {
             this.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight);
@@ -24,16 +38,35 @@ class Game {
     resize(width, height) {
         this.canvas.width = width - (width % this.cellSize);
         this.canvas.height = height - (height % this.cellSize);
+        this.ctx.font = '30px Impact'
+        this.ctx.textBaseline = 'top'
         this.width = this.canvas.width;
         this.height = this.canvas.height;
         this.columns = Math.floor(this.width / this.cellSize);
         this.rows = Math.floor(this.height / this.cellSize);
-        this.player1 = new Keyboard1(this, 0, 0, 0, 1, 'red');
-        this.player2 = new Keyboard2(this,  this.columns - 1,this.rows - 1, 0, -1, 'blue')
-        this.player3 = new AiSnake(this, 0, this.rows - 1, 1, 0, 'black')
-        this.player4 = new AiSnake(this,  this.columns - 1,0, -1, 0, 'white')
-        this.gameObjects = [this.player1, this.player2, this.player3, this.player4]
+        this.background = new Background(this)
+
+ 
         // this.snake.resize()
+    }
+    start(){
+        if (!this.gameOver){
+            this.triggerGameOver()
+            return
+        }
+        this.gameUi.gameplayUi()
+        this.gameOver = false
+        this.player1 = new Keyboard1(this, 0, this.topMargin, 0, 1, 'red', 'plinko');
+        this.player2 = new Keyboard2(this,  this.columns - 1,this.rows - 1, 0, -1, 'blue', 'horse')
+        this.player3 = new AiSnake(this, 0, this.rows - 1, 1, 0, 'yellow', 'eeby')
+        this.player4 = new AiSnake(this,  this.columns - 1,this.topMargin, -1, 0, 'cyan', 'deeby')
+        this.food = new Food(this)
+        this.gameObjects = [this.player1, this.player2, this.player3, this.player4, this.food]
+        this.ctx.clearRect(0,0,this.width, this.height)
+    }
+    triggerGameOver(){
+        this.gameOver = true
+        this.gameUi.gameOverUi()
     }
     handlePeriodicEvents(deltaTime) {
         if (this.eventTimer < this.eventInterval) {
@@ -44,19 +77,7 @@ class Game {
             this.eventUpdate = true;
         }
     }
-    render(deltaTime) {
-        this.handlePeriodicEvents(deltaTime);
-        if (this.eventUpdate) {
-            this.ctx.clearRect(0, 0, this.width, this.height);
-            this.drawGrid();
-
-            this.gameObjects.forEach((object)=>{
-                object.draw()
-                object.update()
-            })
-
-        }
-    }
+    
     drawGrid() {
         for (let y = 0; y < this.rows; y++) {
             for (let x = 0; x < this.columns; x++) {
@@ -68,6 +89,24 @@ class Game {
                 );
             }
         }
+    }
+    checkCollision(a,b){
+        return a.x === b.x && a.y === b.y
+    }
+    render(deltaTime) {
+        this.handlePeriodicEvents(deltaTime);
+        if (this.eventUpdate && !this.gameOver) {
+            this.ctx.clearRect(0, 0, this.width, this.height);
+            this.background.draw()
+            this.drawGrid();
+
+            this.gameObjects.forEach((object)=>{
+                object.draw()
+                object.update()
+            })
+            this.gameUi.update()
+        }
+
     }
 }
 

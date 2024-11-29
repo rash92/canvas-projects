@@ -14,3 +14,61 @@
     max-height: 100%;
     max-width: 100%;
 }
+
+#controls {
+    position: absolute;
+    border: 5px solid black;
+    top: 5px;
+    left: 50%;
+    translate: -50% 0;
+    padding: 10px;
+    background: rgba(0,0,0,0.85);
+    color: white;
+}
+
+#buttons {
+    width: 260px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+#buttons button {
+    width: 65px;
+    background: black;
+    color: white;
+
+}
+
+#scoreScreen {
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 25px;
+}
+
+#playerChoice {
+    padding: 10px 5px;
+}
+
+.playerLabel {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+#gameMenu {
+    display: block;
+}
+
+#gameOverScreen {
+    background: url('assets/images/gameOver_forest.png');
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.assets {
+    display: none;
+}

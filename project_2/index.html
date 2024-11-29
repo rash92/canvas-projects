@@ -8,6 +8,86 @@
 </head>
 <body>
     <canvas id="canvas1"></canvas>
+
+    <div id="gameOverScreen"></div>
+
+    <div id="controls">
+        <div id="buttons">
+            <button id="startButton">Start</button>
+            <button id="debugButton">Debug</button>
+            <button id="fullScreenButton">Full Screen</button>
+        </div>
+        <div id="scoreScreen">
+            <div class="left">
+                <p id="scoreBoard1">Player 1 </p>
+                <p id="scoreBoard2">Player 2 </p>
+            </div>
+            <div class="right">
+                <p id="scoreBoard3">Player 3 </p>
+                <p id="scoreBoard4">Player 4 </p>
+            </div>
+        </div>
+        <div id="gameMenu">
+            <div id="playerChoice">
+                <div class="player1">
+                    <p class="playerLabel">Player 1</p>
+                    <label for="player1controls"> Controls: </label>
+                    <select name="player1controls" id="player1controls">
+                        <option value="arrows">
+                            Keyboard arrows
+                        </option>
+                        <option value="ai">Computer AI</option>
+                    </select>
+                    <div>
+                        <label for="player1name">Name:</label>
+                        <input type="text" id="player1name">
+                    </div>
+
+                </div>
+                <div class="player2">
+                    <p class="playerLabel">Player 2</p>
+                    <label for="player2controls"> Controls: </label>
+                    <select name="player2controls" id="player2controls">
+                        <option value="arrows">
+                            Keyboard WASD
+                        </option>
+                        <option value="ai">Computer AI</option>
+                    </select>
+                    <div>
+                        <label for="player2name">Name:</label>
+                        <input type="text" id="player2name">
+                    </div>
+                </div>
+                <div class="player3">
+                    <p class="playerLabel">Player 3</p>
+                    <label for="player3controls"> Controls: </label>
+                    <select name="player3controls" id="player3controls">
+                        <option value="ai">Computer AI</option>
+                    </select>
+                    <div>
+                        <label for="player3name">Name:</label>
+                        <input type="text" id="player3name">
+                    </div>
+                </div>
+                <div class="player4">
+                    <p class="playerLabel">Player 4</p>
+                    <label for="player4controls"> Controls: </label>
+                    <select name="player4controls" id="player4controls">
+                        <option value="ai">Computer AI</option>
+                    </select>
+                    <div>
+                        <label for="player4name">Name:</label>
+                        <input type="text" id="player4name">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="assets">
+        <img id="forest_margin_repeat" src="assets/images/forest_margin_repeat.png">
+    </div>
+
     <script src="main.js" type="module"></script>
 </body>
 </html>
