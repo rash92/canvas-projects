@@ -49,6 +49,26 @@ class Game {
  
         // this.snake.resize()
     }
+    initPlayer1(){
+        if (this.gameUi.player1controls.value === 'arrows'){
+            this.player1 = new Keyboard1(this, 0, this.topMargin, 0, 1, 'red', this.gameUi.player1name.value);
+        } else {
+            this.player1 = new AiSnake(this, 0, this.topMargin, 0, 1, 'red', this.gameUi.player1name.value)
+        }
+    }
+    initPlayer2(){
+        if (this.gameUi.player2controls.value === 'wasd'){
+            this.player2 = new Keyboard2(this,  this.columns - 1,this.rows - 1, 0, -1, 'blue', this.gameUi.player2name.value);
+        } else {
+            this.player2 = new AiSnake(this,  this.columns - 1,this.rows - 1, 0, -1, 'blue', this.gameUi.player2name.value)
+        }
+    }
+    initPlayer3(){
+        this.player3 = new AiSnake(this, 0, this.rows - 1, 1, 0, 'yellow', this.gameUi.player3name.value)
+    }
+    initPlayer4(){
+        this.player4 = new AiSnake(this,  this.columns - 1,this.topMargin, -1, 0, 'cyan', this.gameUi.player4name.value)
+    }
     start(){
         if (!this.gameOver){
             this.triggerGameOver()
@@ -56,10 +76,10 @@ class Game {
         }
         this.gameUi.gameplayUi()
         this.gameOver = false
-        this.player1 = new Keyboard1(this, 0, this.topMargin, 0, 1, 'red', 'plinko');
-        this.player2 = new Keyboard2(this,  this.columns - 1,this.rows - 1, 0, -1, 'blue', 'horse')
-        this.player3 = new AiSnake(this, 0, this.rows - 1, 1, 0, 'yellow', 'eeby')
-        this.player4 = new AiSnake(this,  this.columns - 1,this.topMargin, -1, 0, 'cyan', 'deeby')
+        this.initPlayer1()
+        this.initPlayer2()
+        this.initPlayer3()
+        this.initPlayer4()
         this.food = new Food(this)
         this.gameObjects = [this.player1, this.player2, this.player3, this.player4, this.food]
         this.ctx.clearRect(0,0,this.width, this.height)

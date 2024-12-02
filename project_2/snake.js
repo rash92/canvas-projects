@@ -53,14 +53,14 @@ export class Snake {
 
     }
     turnUp() {
-        if (this.vy !== 0 || !this.readyToTurn) return
+        if (this.vy !== 0 || this.y <= this.game.topMargin || !this.readyToTurn) return
         this.vx = 0;
         this.vy = -1;
         this.moving = true
         this.readyToTurn = false
     }
     turnDown() {
-        if (this.vy !== 0 || !this.readyToTurn) return
+        if (this.vy !== 0 || this.y >= this.game.rows-1 || !this.readyToTurn) return
         this.vx = 0;
         this.vy = 1;
         this.moving = true
@@ -69,7 +69,7 @@ export class Snake {
 
     }
     turnLeft() {
-        if (this.vx !== 0 || !this.readyToTurn) return
+        if (this.vx !== 0 || this.x <= 0 || !this.readyToTurn) return
         this.vx = -1;
         this.vy = 0;
         this.moving = true
@@ -78,7 +78,7 @@ export class Snake {
 
     }
     turnRight() {
-        if (this.vx !== 0 || !this.readyToTurn) return
+        if (this.vx !== 0 || this.x >= this.game.columns - 1|| !this.readyToTurn) return
         this.vx = 1;
         this.vy = 0;
         this.moving = true
@@ -137,7 +137,7 @@ export class AiSnake extends Snake {
     constructor(game, x, y, vx, vy, color, name) {
         super(game, x, y, vx, vy, color, name);
         this.turnTimer = 0
-        this.turnInterval = Math.floor(Math.random() * 5)
+        this.turnInterval
 
     }
     update() {
@@ -147,6 +147,7 @@ export class AiSnake extends Snake {
         } else {
             this.turnTimer = 0
             this.turnRandom()
+            this.turnInterval = Math.floor(Math.random() * 5)
         }
 
     }
