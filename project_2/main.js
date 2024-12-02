@@ -28,7 +28,7 @@ class Game {
         this.food
         this.background
         this.gameObjects
-        this.debug = true
+        this.debug = false
         this.gameUi = new Ui(this)
 
         window.addEventListener("keyup", e => {
