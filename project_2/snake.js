@@ -10,8 +10,13 @@ export class Snake {
         this.color = color;
         this.moving = true;
         this.score = 0
-        this.length = 2
+        this.length = 3 // need to start with at least 3 to draw properly
         this.segments = []
+        for (let i = 0; i < this.length; i++) {
+            this.x += this.vx
+            this.y += this.vy
+            this.segments.unshift({ x: this.x, y: this.y, frameX: 5, frameY: 0 })
+        }
         this.readyToTurn = true
         this.name = name
         this.image = document.getElementById('snake_corgi')
@@ -96,23 +101,92 @@ export class Snake {
 
 
     }
-    setSpriteFrame(index){
+    setSpriteFrame(index) {
         const segment = this.segments[index]
         const prevSegment = this.segments[index - 1]
         const nextSegment = this.segments[index + 1]
 
-        //head segment
-        if (index === 0){
-            segment.frameX = 1
-            segment.frameY = 2
-        // tail segment
-        } else if (index === this.segments.length - 1){
-            segment.frameX = 1
-            segment.frameY = 4
-        // body segment
-        }else {
-            segment.frameX = 1
-            segment.frameY = 3
+
+        if (index === 0) { //head segment
+            if (segment.y < nextSegment.y) { // facing up
+                segment.frameX = 1
+                segment.frameY = 2
+            } else if (segment.y > nextSegment.y) {// facing down 
+                segment.frameX = 0
+                segment.frameY = 4
+            } else if (segment.x < nextSegment.x) { // facing left
+                segment.frameX = 0
+                segment.frameY = 0
+            } else if (segment.x > nextSegment.x) { // facing right
+                segment.frameX = 2
+                segment.frameY = 1
+            } else { //shouldn't be possible
+                console.log("you have segments overlapping head for some reason")
+            }
+
+            // tail segment
+        } else if (index === this.segments.length - 1) {
+            if (prevSegment.y < segment.y) {// up
+                segment.frameX = 1
+                segment.frameY = 4
+            } else if (prevSegment.y > segment.y) { // down
+                segment.frameX = 0
+                segment.frameY = 2
+            } else if (prevSegment.x < segment.x) { // left
+                segment.frameX = 2
+                segment.frameY = 0
+            } else if (prevSegment.x > segment.x) { //right
+                segment.frameX = 0
+                segment.frameY = 1
+            } else { // shouldn't happen
+                console.log("you have segments overlapping tail for some reason")
+            }
+            // body segment
+        } else {
+            if (nextSegment.x < segment.x && prevSegment.x > segment.x) { // horizontal right
+                segment.frameX = 5
+                segment.frameY = 3
+            } else if (prevSegment.x < segment.x && nextSegment.x > segment.x) { // horizontal left
+                segment.frameX = 5
+                segment.frameY = 2
+            } else if (prevSegment.y < segment.y && nextSegment.y > segment.y) { // vertical up
+                segment.frameX = 1
+                segment.frameY = 3
+            } else if (nextSegment.y < segment.y && prevSegment.y > segment.y) { // vertical down
+                segment.frameX = 0
+                segment.frameY = 3
+                //bending middle counter clockwise
+            } else if (prevSegment.x < segment.x && nextSegment.y > segment.y) { // up left
+                segment.frameX = 4
+                segment.frameY = 0
+            } else if (prevSegment.y > segment.y && nextSegment.x > segment.x) { // left down
+                segment.frameX = 3
+                segment.frameY = 0
+            } else if (prevSegment.x > segment.x && nextSegment.y < segment.y) { // down right
+                segment.frameX = 3
+                segment.frameY = 1
+            } else if (prevSegment.y < segment.y && nextSegment.x < segment.x) { // right up
+                segment.frameX = 4
+                segment.frameY = 1
+                //bending middle cloclwise
+            } else if (nextSegment.x < segment.x && prevSegment.y > segment.y) { // right down
+                segment.frameX = 3
+                segment.frameY = 2
+            } else if (nextSegment.y < segment.y && prevSegment.x < segment.x) { // down left
+                segment.frameX = 3
+                segment.frameY = 3
+            } else if (nextSegment.x > segment.x && prevSegment.y < segment.y) { // left up
+                segment.frameX = 2
+                segment.frameY = 3
+            } else if (nextSegment.y > segment.y && prevSegment.x > segment.x) { // up right
+                segment.frameX = 2
+                segment.frameY = 2
+            } else {
+                console.log("shouldn't be possible to get here")
+                segment.frameX = 6
+                segment.frameY = 0
+            }
+
         }
     }
 }
