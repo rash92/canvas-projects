@@ -19,7 +19,7 @@ class Game {
         this.eventUpdate = false;
 
         this.gameOver = true
-        this.winningScore = 3
+        this.winningScore = 6
 
         this.player1
         this.player2
