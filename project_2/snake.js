@@ -14,6 +14,9 @@ export class Snake {
         this.segments = []
         this.readyToTurn = true
         this.name = name
+        this.image = document.getElementById('snake_corgi')
+        this.spriteWidth = 200
+        this.spriteHeight = 200
 
     }
     update() {
@@ -31,25 +34,32 @@ export class Snake {
         if (this.moving) {
             this.x += this.vx;
             this.y += this.vy;
-            this.segments.unshift({ x: this.x, y: this.y })
-            if (this.segments.length > this.length){
+            this.segments.unshift({ x: this.x, y: this.y, frameX: 2, frameY: 3 })
+            if (this.segments.length > this.length) {
                 this.segments.pop()
             }
         }
-        if (this.score >= this.game.winningScore){
+        if (this.score >= this.game.winningScore) {
             this.game.triggerGameOver()
         }
     }
     draw() {
         this.segments.forEach((segment, i) => {
-            this.game.ctx.fillStyle = i === 0? 'lightgreen' : this.color;
-            this.game.ctx.fillRect(
-                segment.x * this.game.cellSize,
-                segment.y * this.game.cellSize,
-                this.width,
-                this.height
-            );
+
+            if (this.game.debug) {
+                this.game.ctx.fillStyle = i === 0 ? 'lightgreen' : this.color;
+                this.game.ctx.fillRect(
+                    segment.x * this.game.cellSize,
+                    segment.y * this.game.cellSize,
+                    this.width,
+                    this.height
+                );
+            }
+            this.setSpriteFrame(i)
+            this.game.ctx.drawImage(this.image, segment.frameX * this.spriteWidth, segment.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, segment.x * this.game.cellSize, segment.y * this.game.cellSize, this.width, this.height)
+
         })
+
 
     }
     turnUp() {
@@ -60,7 +70,7 @@ export class Snake {
         this.readyToTurn = false
     }
     turnDown() {
-        if (this.vy !== 0 || this.y >= this.game.rows-1 || !this.readyToTurn) return
+        if (this.vy !== 0 || this.y >= this.game.rows - 1 || !this.readyToTurn) return
         this.vx = 0;
         this.vy = 1;
         this.moving = true
@@ -78,13 +88,32 @@ export class Snake {
 
     }
     turnRight() {
-        if (this.vx !== 0 || this.x >= this.game.columns - 1|| !this.readyToTurn) return
+        if (this.vx !== 0 || this.x >= this.game.columns - 1 || !this.readyToTurn) return
         this.vx = 1;
         this.vy = 0;
         this.moving = true
         this.readyToTurn = false
 
 
+    }
+    setSpriteFrame(index){
+        const segment = this.segments[index]
+        const prevSegment = this.segments[index - 1]
+        const nextSegment = this.segments[index + 1]
+
+        //head segment
+        if (index === 0){
+            segment.frameX = 1
+            segment.frameY = 2
+        // tail segment
+        } else if (index === this.segments.length - 1){
+            segment.frameX = 1
+            segment.frameY = 4
+        // body segment
+        }else {
+            segment.frameX = 1
+            segment.frameY = 3
+        }
     }
 }
 
