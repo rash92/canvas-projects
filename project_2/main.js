@@ -9,7 +9,7 @@ class Game {
         this.ctx = context;
         this.width;
         this.height;
-        this.cellSize = 50;
+        this.cellSize = 80;
         this.columns;
         this.rows;
         this.topMargin = 3
@@ -28,7 +28,13 @@ class Game {
         this.food
         this.background
         this.gameObjects
+        this.debug = true
         this.gameUi = new Ui(this)
+
+        window.addEventListener("keyup", e => {
+            if (e.key === '-')  this.toggleFullScreen()
+            else if (e.key === '+') this.toggleDebug()
+        })
 
         window.addEventListener("resize", (e) => {
             this.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight);
@@ -69,6 +75,9 @@ class Game {
     initPlayer4(){
         this.player4 = new AiSnake(this,  this.columns - 1,this.topMargin, -1, 0, 'cyan', this.gameUi.player4name.value)
     }
+    checkName(name){
+        return this.player1.name === name || this.player2.name === name || this.player3.name === name || this.player4.name === name
+    }
     start(){
         if (!this.gameOver){
             this.triggerGameOver()
@@ -97,7 +106,16 @@ class Game {
             this.eventUpdate = true;
         }
     }
-    
+    toggleDebug(){
+        this.debug = !this.debug
+    }
+    toggleFullScreen(){
+        if (!document.fullscreenElement){
+            document.documentElement.requestFullscreen()
+        } else if (document.exitFullscreen){
+            document.exitFullscreen()
+        }
+    }
     drawGrid() {
         for (let y = 0; y < this.rows; y++) {
             for (let x = 0; x < this.columns; x++) {
@@ -118,7 +136,7 @@ class Game {
         if (this.eventUpdate && !this.gameOver) {
             this.ctx.clearRect(0, 0, this.width, this.height);
             this.background.draw()
-            this.drawGrid();
+            if (this.debug) this.drawGrid();
 
             this.gameObjects.forEach((object)=>{
                 object.draw()
