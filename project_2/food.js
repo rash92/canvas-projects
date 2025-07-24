@@ -14,7 +14,7 @@ export class Food {
     }
     reset(){
         this.x = Math.floor(Math.random() * this.game.columns)
-        this.y = Math.floor(Math.random() * (this.game.rows - 2) + 2)
+        this.y = Math.ceil(Math.random() * (this.game.rows - 2) + 2)
         this.frameX = 0
     }
     draw(){
