@@ -19,7 +19,7 @@ class Game {
         this.eventUpdate = false;
 
         this.gameOver = true
-        this.winningScore = 6
+        this.winningScore = 10
 
         this.player1
         this.player2
@@ -52,7 +52,7 @@ class Game {
         this.rows = Math.floor(this.height / this.cellSize);
         this.background = new Background(this)
 
- 
+
         // this.snake.resize()
     }
     initPlayer1(){
